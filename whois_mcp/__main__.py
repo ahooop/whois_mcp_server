@@ -1,9 +1,7 @@
+from typing import Any, Dict
 import os
 import requests
-from typing import Dict, Any
-from flask import Flask, request, jsonify
 
-app = Flask(__name__)
 API_KEY = os.getenv("TAVILY_API_KEY")
 
 class DomainModel:
@@ -28,45 +26,47 @@ class WhoisContext:
         response = requests.get(self.base_url, params=api_params, timeout=60)
         return response.json()
 
-@app.route("/whois")
-def whois_query():
-    """Whois 查询接口"""
+def whois_query(domain: str) -> Dict[str, Any]:
+    """Whois 查询接口
+    Args:
+        domain: 需要查询的域名
+    Returns:
+        查询结果字典
+    """
+    if not domain:
+        return {
+            "code": -1,
+            "message": "domain参数不能为空",
+            "data": None
+        }
+    if not API_KEY:
+        return {
+            "code": -1,
+            "message": "Missing API Key",
+            "data": None
+        }
+    domain_model = DomainModel(domain)
+    whois_context = WhoisContext(domain_model)
     try:
-        domain = request.args.get("domain")
-        if not domain:
-            return jsonify({
-                "code": -1,
-                "message": "domain参数不能为空",
-                "data": None
-            }), 400
-
-        if not API_KEY:
-            return jsonify({
-                "code": -1,
-                "message": "Missing API Key",
-                "data": None
-            }), 500
-
-        # 创建模型和上下文
-        domain_model = DomainModel(domain)
-        whois_context = WhoisContext(domain_model)
-        
-        # 通过上下文获取结果
         result = whois_context.get_whois_info()
-        
-        return jsonify({
+        return {
             "code": 0,
             "message": "success",
             "data": result
-        })
-
+        }
     except Exception as ex:
-        return jsonify({
+        return {
             "code": -1,
             "message": f"系统异常：{str(ex)}",
             "data": None
-        }), 500
+        }
+
+def main():
+    """主函数入口点"""
+    print("WHOIS MCP Server")
+    print("这是一个 WHOIS 查询工具")
+    print("使用方法: from whois_mcp.__main__ import whois_query")
+    print("示例: result = whois_query('example.com')")
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    main() 

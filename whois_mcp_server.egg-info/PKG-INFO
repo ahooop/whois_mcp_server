@@ -1,3 +1,32 @@
+Metadata-Version: 2.4
+Name: whois-mcp-server
+Version: 0.1.0
+Summary: A WHOIS MCP server for domain availability checking
+Author-email: Your Name <your.email@example.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/your-username/whois-mcp-server
+Project-URL: Repository, https://github.com/your-username/whois-mcp-server
+Project-URL: Issues, https://github.com/your-username/whois-mcp-server/issues
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Internet :: Name Service (DNS)
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.25.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: flake8>=4.0.0; extra == "dev"
+Dynamic: license-file
+
 # WHOIS MCP Server
 
 [![PyPI version](https://badge.fury.io/py/whois-mcp-server.svg)](https://badge.fury.io/py/whois-mcp-server)
